@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--
+  @Description: 武汉智慧地铁 - 前端入口 HTML
+  项目：武汉智慧地铁三维可视化管控平台
+  技术栈：Vue 3 + CesiumJS + Ant Design Vue
+
+  头部资源：
+    - 阿里 iconfont 图标字体库（metro-* 系列图标）
+    - Cesium JS/CSS 由 vite-plugin-insert-html 动态注入
+
+  底部脚本：
+    - flv.min.js：FLV 流媒体播放库（全局引入，用于 Video.js 的 flvjs-tech）
+    - main.js：Vue 应用入口
+
+  注意：viewport 设置 width=device-width 确保 v-scale-screen 自适应生效
+  @Date: 2024-05-08
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- 网站图标 -->
+    <link rel="icon" type="image/jpeg" href="/icon.jpg" />
+    <!-- 响应式视口（v-scale-screen 自适应缩放的基础） -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      阿里 iconfont 图标库
+      包含所有 metro-* 前缀的自定义图标：
+        metro-lineRoute（线路）、metro-ditie（地铁）、metro-lujingguihua（路径规划）
+        metro-zhizhen（指针）、metro-layer（图层）、metro-quanping_o（全屏）
+        以及天气图标：metro-qingtian/metro-yutian/metro-xuetian/metro-duoyun 等
+    -->
+    <link rel="stylesheet" href="https://at.alicdn.com/t/c/font_4268437_hdj2la3gidb.css">
+    <title>武汉智慧地铁</title>
+  </head>
+  <body>
+    <!-- Vue 应用挂载点 -->
+    <div id="app"></div>
+
+    <!--
+      FLV 流媒体播放库（全局脚本）
+      用于 Video.js 的 flvjs-tech 插件，支持 FLV 直播流播放
+      必须在 main.js 之前加载（flv.js 是全局依赖）
+    -->
+    <script src="./flv.min.js"></script>
+
+    <!-- Vue 应用入口（模块化加载） -->
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
