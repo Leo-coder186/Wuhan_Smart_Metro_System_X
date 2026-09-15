@@ -28,21 +28,21 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
-          cache-dependency-path: frontend/pnpm-lock.yaml
+          cache-dependency-path: smartMetro/frontend/pnpm-lock.yaml
 
       - name: Install dependencies
-        working-directory: frontend
+        working-directory: smartMetro/frontend
         run: pnpm install
 
       - name: Build
-        working-directory: frontend
+        working-directory: smartMetro/frontend
         run: pnpm build
 
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: frontend/dist
+          path: smartMetro/frontend/dist
 
   deploy:
     needs: build
