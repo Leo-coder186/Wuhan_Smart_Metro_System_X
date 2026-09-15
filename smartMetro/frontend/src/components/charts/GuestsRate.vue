@@ -67,7 +67,7 @@ onMounted(() => {
 .title-banner {
   height: 40px; width: 100%;
   display: flex; align-items: center; justify-content: space-between;
-  background: url("/assets/uiResources/圆角矩形.png");
+  background: url("/src/assets/uiResources/圆角矩形.png");
   background-size: 100% 100%; padding: 0 20px;
 }
 .title-banner img { width: 40px; height: 40px; }

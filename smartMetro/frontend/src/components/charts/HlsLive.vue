@@ -35,6 +35,7 @@
 import { VideoPlayer } from '@videojs-player/vue'
 import 'video.js/dist/video-js.css'   // Video.js 默认样式
 import { ref } from 'vue'
+import subwayPoster from '@/assets/subway.jpeg'
 
 const props = defineProps({
     src: {
@@ -49,7 +50,7 @@ const props = defineProps({
 })
 
 // 视频封面图（加载前显示）
-const poster = ref('/src/assets/subway.jpeg')
+const poster = ref(subwayPoster)
 
 /**
  * 播放器挂载完成回调

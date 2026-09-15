@@ -16,6 +16,7 @@ import { VideoPlayer } from '@videojs-player/vue'
 import videojs from 'video.js'
 import 'video.js/dist/video-js.css'
 import { ref } from 'vue'
+import subwayPoster from '@/assets/subway.jpeg'
 
 const props = defineProps({
     src: {
@@ -27,7 +28,7 @@ const props = defineProps({
         default: 'hls'
     }
 })
-const poster = ref('/src/assets/subway.jpeg')
+const poster = ref(subwayPoster)
 
 const handleMounted = ({ player }) => {
     if (props.videoType === 'hls') {

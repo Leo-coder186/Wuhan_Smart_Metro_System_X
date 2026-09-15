@@ -29,10 +29,10 @@ const devConfig = {
   cesiumBaseURL: cesiumBaseURL,
   /** Cesium Ion 访问令牌 */
   cesiumIonToken: cesiumIonToken,
-  /** 武汉城市建筑白模 3D Tiles 路径（开发环境从本地服务加载） */
-  cesiumBuildingURL: import.meta.env.VITE_DEV_BUILDING_URL || 'http://localhost:666/public/wuhan/tileset.json',
+  /** 武汉城市建筑白模 3D Tiles 路径（静态资源，随应用一起部署） */
+  cesiumBuildingURL: import.meta.env.VITE_DEV_BUILDING_URL || `${import.meta.env.BASE_URL}wuhan/tileset.json`,
   /** 地铁列车 3D 模型路径（glTF 格式） */
-  cesiumMetrolModelURL: import.meta.env.VITE_DEV_METRO_MODEL_URL || "/models/gltf/metro.gltf"
+  cesiumMetrolModelURL: import.meta.env.VITE_DEV_METRO_MODEL_URL || `${import.meta.env.BASE_URL}models/gltf/metro.gltf`
 };
 
 // ============================================
@@ -45,10 +45,10 @@ const prodConfig = {
   cesiumBaseURL: cesiumBaseURL,
   /** Cesium Ion 访问令牌 */
   cesiumIonToken: cesiumIonToken,
-  /** 武汉城市建筑白模路径（生产环境从 Nginx 静态服务加载） */
-  cesiumBuildingURL: import.meta.env.VITE_PROD_BUILDING_URL || '/models/b3dm/tileset.json',
+  /** 武汉城市建筑白模 3D Tiles 路径（静态资源，随应用一起部署） */
+  cesiumBuildingURL: import.meta.env.VITE_PROD_BUILDING_URL || `${import.meta.env.BASE_URL}wuhan/tileset.json`,
   /** 地铁列车 3D 模型路径 */
-  cesiumMetrolModelURL: import.meta.env.VITE_PROD_METRO_MODEL_URL || "/models/gltf/metro.gltf"
+  cesiumMetrolModelURL: import.meta.env.VITE_PROD_METRO_MODEL_URL || `${import.meta.env.BASE_URL}models/gltf/metro.gltf`
 };
 
 // ============================================

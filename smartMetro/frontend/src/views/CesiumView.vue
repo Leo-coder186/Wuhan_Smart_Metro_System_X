@@ -79,7 +79,7 @@ onMounted(async () => {
     // 7. 定义要加载的 3D 模型列表
     // url: 武汉城市建筑白模（b3dm 格式 3D Tiles），需要启动本地模型服务
     const modelUrls = [{
-      url: "http://localhost:666/public/wuhan/tileset.json",
+      url: `${import.meta.env.BASE_URL}wuhan/tileset.json`,
       options: {}
     }]
 
@@ -104,7 +104,7 @@ onMounted(async () => {
       })
     } catch (err) {
       // 模型加载失败只打印警告，不影响基础地图功能
-      console.warn('3D模型加载失败（需要启动模型服务: localhost:666）：', err?.message || err)
+      console.warn('3D模型加载失败:', err?.message || err)
     }
 });
 </script>

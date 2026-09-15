@@ -82,8 +82,10 @@ const config = (context) => {
   const cesiumBaseUrl = env["VITE_CESIUM_BASE_URL"]
     || "https://cesium.com/downloads/cesiumjs/releases/1.97/Build/Cesium/";
 
-  // 应用基础路径（根路径）
-  const base = "/";
+  // 应用基础路径
+  // 生产环境部署在 GitHub Pages 的项目子路径下，必须带上仓库名
+  // 开发环境保持根路径
+  const base = isProd ? "/Wuhan_Smart_Metro_System_X/" : "/";
 
   // ============================================
   // 插件配置
@@ -177,6 +179,7 @@ const config = (context) => {
         { src: "src/assets/model/*",            dest: "assets/model" },
         { src: "src/assets/materialResources/*", dest: "assets/materialResources" },
         { src: "src/assets/uiResources/*",       dest: "assets/uiResources" },
+        { src: "src/assets/skyBox/*",           dest: "assets/skyBox" },
         { src: "src/assets/wuhan/*",            dest: "assets/wuhan" },
         { src: "src/assets/*.jpg",              dest: "assets" },
         { src: "src/assets/*.png",              dest: "assets" },
@@ -224,7 +227,7 @@ const config = (context) => {
   // ============================================
   const assetsInclude = [
     "**/*.png", "**/*.jpg", "**/*.jpeg", "**/*.gif",
-    "**/*.svg", "**/*.webp", "**/*.flv", "**/*.json",
+    "**/*.svg", "**/*.webp", "**/*.flv",
   ];
 
   // ============================================

@@ -18,6 +18,7 @@
 import api from "./request";
 import { lineColors } from "@/store/staticData";
 import { CoordTransform } from '@/cesiumTools/mapPlugin.js'
+import lineData from "@/assets/lineData.json";
 
 /**
  * 获取所有地铁线路数据
@@ -33,7 +34,8 @@ import { CoordTransform } from '@/cesiumTools/mapPlugin.js'
  */
 export const getLine = async (params) => {
   try {
-    const { data, code } = await api.get(`/getLine`, { params });
+    // 静态部署：线路数据已固化为本地 JSON（原为后端 GET /getLine）
+    const { data, code } = lineData;
     if (code === 200) {
       // 对每条线路的数据进行加工处理
       const result = data.map((item, index) => {
@@ -95,11 +97,36 @@ export const getLinePlan = (params) => api.get(`/getLinePlan`, { params });
 
 /**
  * 站点详细信息查询
- * @param {Object} params - 查询参数
- * @returns {Object} 站点详细信息
+ *
+ * 静态部署：不再请求后端，改为从内置线路数据中查找
+ * 与原后端 GET /getStationInfo 行为一致：
+ *   - address:    该站所属线路（去掉"轨道交通"前缀，多线路用 ; 拼接）
+ *   - peopleFlow: 随机客流量（0-100，原后端亦为模拟值）
+ *
+ * @param {Object} params - { name: 站点名 }
+ * @returns {Promise<{code, message, data: {address, peopleFlow}}>}
  */
-export const getStationInfo = (params) =>
-  api.get(`/getStationInfo`, { params });
+export const getStationInfo = async (params) => {
+  const name = params?.name;
+  if (!name) {
+    return { code: 400, message: '请输入站点名称', data: null };
+  }
+
+  let address = '';
+  for (const line of lineData.data) {
+    const hit = (line.stationsList || []).some((station) => station.name === name);
+    if (hit) {
+      const lineName = line.name.replace('轨道交通', '');
+      address = address === '' ? lineName : `${address};${lineName}`;
+    }
+  }
+
+  return {
+    code: 200,
+    message: '成功',
+    data: { address, peopleFlow: Math.floor(Math.random() * 100) },
+  };
+};
 
 /**
  * 获取实时天气数据 - 使用高德地图天气 API

@@ -26,6 +26,18 @@ import { CoordTransform } from '@/cesiumTools/mapPlugin.js'
 import Timeline from "./TimeLine/timeline";
 
 /**
+ * 静态资源 URL 解析
+ *
+ * 开发环境：资源位于 src/assets，由 Vite dev server 直接提供
+ * 生产环境：资源经 viteStaticCopy 复制到 dist/assets，必须带上部署 base 前缀
+ *          （GitHub Pages 部署在项目子路径下，缺少前缀会 404）
+ */
+const assetUrl = (relativePath) =>
+  import.meta.env.PROD
+    ? `${import.meta.env.BASE_URL}assets/${relativePath}`
+    : `/src/assets/${relativePath}`;
+
+/**
  * 太阳光晕着色器（GLSL 片段着色器）
  *
  * 效果：当相机镜头对准太阳时，在屏幕空间产生逼真的光晕效果
@@ -204,7 +216,7 @@ export const initViewer = (container) => {
         const msg = e.message;
         if (msg.includes('Expected width to be greater than 0') ||
             msg.includes('key is required to be a string or number')) {
-          return;  // 非致命错误，跳过本帧
+          return;  
         }
       }
       throw e;  // 其他错误继续抛出
@@ -310,12 +322,12 @@ export const setScene = (viewer) => {
   // 使用 6 张 1024×1024 的立方体贴图
   viewer.scene.skyBox = new Cesium.SkyBox({
     sources: {
-      positiveX: "/src/assets/skyBox/px.jpg",  // 右
-      negativeX: "/src/assets/skyBox/nx.jpg",  // 左
-      positiveY: "/src/assets/skyBox/py.jpg",  // 上
-      negativeY: "/src/assets/skyBox/ny.jpg",  // 下
-      positiveZ: "/src/assets/skyBox/pz.jpg",  // 前
-      negativeZ: "/src/assets/skyBox/nz.jpg",  // 后
+      positiveX: assetUrl("skyBox/px.jpg"),  // 右
+      negativeX: assetUrl("skyBox/nx.jpg"),  // 左
+      positiveY: assetUrl("skyBox/py.jpg"),  // 上
+      negativeY: assetUrl("skyBox/ny.jpg"),  // 下
+      positiveZ: assetUrl("skyBox/pz.jpg"),  // 前
+      negativeZ: assetUrl("skyBox/nz.jpg"),  // 后
     },
   });
 
@@ -447,19 +459,19 @@ export const handleDefaultModelEffect = (tile) => {
       u_TextureNight: {
         type: Cesium.UniformType.SAMPLER_2D,
         value: new Cesium.TextureUniform({
-          url: import.meta.env.PROD ? '/assets/night.jpg' : '/src/assets/night.jpg'
+          url: assetUrl('night.jpg')
         })
       },
       u_TextureDay: {
         type: Cesium.UniformType.SAMPLER_2D,
         value: new Cesium.TextureUniform({
-          url: import.meta.env.PROD ? '/assets/sky.jpg' : '/src/assets/sky.jpg'
+          url: assetUrl('sky.jpg')
         })
       },
       u_colorTexture: {
         type: Cesium.UniformType.SAMPLER_2D,
         value: new Cesium.TextureUniform({
-          url: import.meta.env.PROD ? '/assets/color.png' : '/src/assets/color.png'
+          url: assetUrl('color.png')
         })
       }
     },
@@ -601,7 +613,7 @@ export const handleDefaultModelEffect = (tile) => {
  * @returns {Promise<Cesium.GroundPrimitive>} 水面 Primitive
  */
 export const renderWater = async (viewer) => {
-  const src = import.meta.env.PROD ? "/assets/water.json" : "/src/assets/water.json";
+  const src = assetUrl('water.json');
   const data = await new Cesium.GeoJsonDataSource.load(src);
 
   const entities = data.entities.values;
@@ -638,7 +650,7 @@ export const renderWater = async (viewer) => {
           baseWaterColor: new Cesium.Color(0.0, 0.5, 0.9, 0.8),   // 基础水色
           blendColor: new Cesium.Color(0.0, 1.0, 0.699, 1.0),     // 混合颜色
           specularMap: Cesium.Material.DefaultImageId,
-          normalMap: import.meta.env.PROD ? '/assets/waterNormals.jpg' : '/src/assets/waterNormals.jpg',
+          normalMap: assetUrl('waterNormals.jpg'),
           frequency: 3000.0,       // 波纹频率
           animationSpeed: 0.05,    // 动画速度
           amplitude: 1.0,          // 波纹振幅
